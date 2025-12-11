@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COE FireCommand</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              coe: {
+                950: '#0a0a0a', // Main background (Neutral Black)
+                900: '#171717', // Secondary background (Neutral 900)
+                800: '#262626', // Panels (Neutral 800)
+                700: '#404040', // Borders (Neutral 700)
+                600: '#525252', // Muted text
+                accent: '#dc2626', // Fire Engine Red (Primary)
+                'accent-hover': '#b91c1c', // Darker Red (Hover)
+                alert: '#ef4444', // Brighter Red for alerts
+                success: '#10b981', // Green
+                warning: '#f59e0b', // Amber
+                white: '#ffffff', // White
+                'white-dim': '#e5e5e5', // Off-white
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #0a0a0a;
+        color: #f5f5f5;
+      }
+      /* Custom scrollbar for dashboard panels */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #171717; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #404040; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #dc2626; 
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.559.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.32.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.10.1",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.1/client",
+    "react-dom": "https://esm.sh/react-dom@^19.2.1",
+    "react": "https://esm.sh/react@^19.2.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
+    "react/": "https://esm.sh/react@^19.2.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

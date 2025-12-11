@@ -1,0 +1,7 @@
+{
+  "name": "COE FireCommand",
+  "description": "Integrated Operations Center Dashboard for Fire Department and Emergency Services.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

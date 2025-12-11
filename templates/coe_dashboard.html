@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COE SURVEILLANCE SYSTEM</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/coe_style.css') }}">
+    <!-- Fonte Digital/Tecnológica -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="screen-overlay"></div>
+    <div class="scanline"></div>
+
+    <div class="monitor-frame">
+        <!-- Header / HUD Top -->
+        <header class="hud-header">
+            <div class="left-stats">
+                <span class="blink">REC</span> [LIVE]
+                <br>
+                SIG: 100% | BAT: EXT
+            </div>
+            <div class="center-title">
+                <h1>FIRE & SMOKE DETECTION SYS</h1>
+                <small>UNIT-01 // SECTOR 7</small>
+            </div>
+            <div class="right-stats" id="clock">
+                00:00:00
+            </div>
+        </header>
+
+        <!-- Main Viewport -->
+        <div class="viewport-container">
+            <!-- Video Feed -->
+            <img src="{{ url_for('video_feed') }}" class="video-feed" alt="Surveillance Feed">
+            
+            <!-- Perspective Grid Overlay -->
+            <div class="perspective-container">
+                <div class="ground-grid"></div>
+            </div>
+
+            <!-- HUD Overlays -->
+            <div class="hud-crosshair center"></div>
+            <div class="hud-bracket top-left"></div>
+            <div class="hud-bracket top-right"></div>
+            <div class="hud-bracket bottom-left"></div>
+            <div class="hud-bracket bottom-right"></div>
+
+            <!-- Coordinate Readout -->
+            <div class="coords-box">
+                TGT_X: <span id="cx">000</span>
+                TGT_Y: <span id="cy">000</span>
+                DIST: <span id="dist">--</span> M
+            </div>
+        </div>
+
+        <!-- Footer / Console -->
+        <footer class="hud-footer">
+            <div class="log-panel">
+                <p>> SYSTEM INITIALIZED...</p>
+                <p>> CONNECTING TO CAM-01... OK</p>
+                <p>> AI MODEL LOADED: YOLOv8</p>
+                <p>> N8N WEBHOOK: ACTIVE</p>
+            </div>
+            <div class="controls">
+                <button class="sys-btn" onclick="toggleGrid()">TOGGLE GRID</button>
+                <button class="sys-btn alert-btn" onclick="manualTrigger()">MANUAL TRIGGER</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Relógio
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Mouse Tracker para "Coordenadas"
+        const container = document.querySelector('.viewport-container');
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = Math.floor(e.clientX - rect.left);
+            const y = Math.floor(e.clientY - rect.top);
+            
+            document.getElementById('cx').innerText = x.toString().padStart(3, '0');
+            document.getElementById('cy').innerText = y.toString().padStart(3, '0');
+        });
+
+        function toggleGrid() {
+            document.querySelector('.perspective-container').classList.toggle('hidden');
+        }
+
+        function manualTrigger() {
+            // Futuro: Implementar chamada AJAX para backend se necessário
+            alert("MANUAL TRIGGER SENT");
+        }
+    </script>
+</body>
+</html>

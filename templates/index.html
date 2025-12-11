@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE VIEW // CAM 01</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="monitor-container">
+        <!-- Scanline Effect Overlay -->
+        <div class="scanlines"></div>
+        <div class="screen-glare"></div>
+
+        <header class="osd-header">
+            <span class="blinking-dot">●</span> REC
+            <span class="cam-id">CAM-01 [LIVE]</span>
+            <span class="location">SERVER_ROOM</span>
+        </header>
+
+        <main class="video-wrapper">
+            <img src="{{ url_for('video_feed') }}" class="cctv-feed" alt="Video Feed">
+            
+            <div class="osd-overlay">
+                <div class="crosshair center"></div>
+                <div class="status-text">
+                    SYSTEM STATUS: <span style="color: #0f0;">NORMAL</span><br>
+                    AI INFERENCE: <span style="color: #0f0;">ACTIVE</span><br>
+                    THREAT LEVEL: <span style="color: #0f0;" id="threat-level">LOW</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="osd-footer">
+            <div class="tech-info">
+                YOLOv8 MODULE LOADED<br>
+                RES: 640x480 | FPS: AUTO<br>
+                SECURE CONNECTION ESTABLISHED
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

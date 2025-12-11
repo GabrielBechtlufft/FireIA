@@ -1,0 +1,198 @@
+:root {
+    --main-color: #00ff41; /* Hacker Green */
+    --alert-color: #ff0000;
+    --bg-color: #0d0d0d;
+    --grid-color: rgba(0, 255, 65, 0.3);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: var(--main-color);
+    font-family: 'Share Tech Mono', monospace;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === CRT / Scanline Effects === */
+.screen-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
+    z-index: 999;
+}
+
+.scanline {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 5px;
+    background: rgba(0, 255, 65, 0.1);
+    opacity: 0.4;
+    animation: scanlineMove 3s linear infinite;
+    pointer-events: none;
+    z-index: 998;
+}
+
+@keyframes scanlineMove {
+    0% { top: -10%; }
+    100% { top: 110%; }
+}
+
+/* === Layout === */
+.monitor-frame {
+    width: 95vw;
+    height: 90vh;
+    border: 2px solid var(--main-color);
+    box-shadow: 0 0 20px var(--grid-color);
+    display: flex;
+    flex-direction: column;
+    background: #050505;
+    position: relative;
+}
+
+.hud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+    color: var(--alert-color);
+}
+@keyframes blinker { 50% { opacity: 0; } }
+
+/* === Viewport & Video === */
+.viewport-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Alinha vídeo ao fundo se sobrar espaço */
+}
+
+.video-feed {
+    width: 640px; 
+    height: 480px; 
+    /* Estica para caber mantendo aspect ratio se necessário, ou tamanho fixo */
+    object-fit: cover;
+    z-index: 1;
+    border: 1px solid #333;
+}
+
+/* === Perspective Grid (Floor) === */
+.perspective-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Cobre tudo e vamos posicionar o grid no "chão" */
+    perspective: 800px;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.ground-grid {
+    position: absolute;
+    bottom: -100px; /* Começa um pouco abaixo do vídeo */
+    left: 50%;
+    transform: translateX(-50%) rotateX(60deg); /* Inclinação para efeito 3D */
+    width: 200vw;
+    height: 100vh;
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    border-top: 2px solid var(--main-color);
+    opacity: 0.5;
+}
+
+.hidden { display: none; }
+
+/* === HUD Elements === */
+.hud-bracket {
+    position: absolute;
+    width: 30px; height: 30px;
+    border-color: var(--main-color);
+    border-style: solid;
+    z-index: 10;
+}
+.top-left { top: 20px; left: 20px; border-width: 2px 0 0 2px; }
+.top-right { top: 20px; right: 20px; border-width: 2px 2px 0 0; }
+.bottom-left { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; }
+.bottom-right { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+
+.hud-crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10;
+}
+.hud-crosshair::before, .hud-crosshair::after {
+    content: ''; position: absolute; background: var(--main-color);
+}
+.hud-crosshair::before { top: 9px; left: -5px; width: 30px; height: 1px; }
+.hud-crosshair::after { top: -5px; left: 9px; width: 1px; height: 30px; }
+
+.coords-box {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid var(--main-color);
+    padding: 5px 10px;
+    font-size: 14px;
+    z-index: 20;
+}
+
+/* === Footer === */
+.hud-footer {
+    height: 100px;
+    border-top: 1px solid var(--main-color);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.log-panel p { margin: 2px 0; opacity: 0.8; }
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sys-btn {
+    background: transparent;
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    padding: 8px 16px;
+    font-family: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+.sys-btn:hover {
+    background: var(--main-color);
+    color: #000;
+}
+.alert-btn {
+    border-color: var(--alert-color);
+    color: var(--alert-color);
+}
+.alert-btn:hover {
+    background: var(--alert-color);
+    color: #000;
+}
